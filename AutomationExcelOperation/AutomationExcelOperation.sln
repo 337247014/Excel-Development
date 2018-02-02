@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationExcelOperation", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{2E3F4CDF-B75A-48A1-B918-E670733C3C6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelCommon", "ExcelCommon\ExcelCommon.csproj", "{09917BEC-87AC-416A-89F8-08E79FE2CCCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2E3F4CDF-B75A-48A1-B918-E670733C3C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E3F4CDF-B75A-48A1-B918-E670733C3C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E3F4CDF-B75A-48A1-B918-E670733C3C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09917BEC-87AC-416A-89F8-08E79FE2CCCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09917BEC-87AC-416A-89F8-08E79FE2CCCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09917BEC-87AC-416A-89F8-08E79FE2CCCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09917BEC-87AC-416A-89F8-08E79FE2CCCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
