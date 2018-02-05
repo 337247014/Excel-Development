@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Data\RawExcel\OtherData.xlsx" />
     <None Include="Data\RawExcel\TestData.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
