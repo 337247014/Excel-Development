@@ -12,14 +12,14 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class Token
     {
-        public int Id { get; set; }
-        public string CountryKey { get; set; }
-        public string CountryName { get; set; }
-        public string CurrencyCode { get; set; }
-        public bool AllowsImpatriateExpenses { get; set; }
-        public string CountryKeySAP { get; set; }
-        public Nullable<int> AmexCountryISOCd { get; set; }
+        public int TokenId { get; set; }
+        public int UserId { get; set; }
+        public string AuthToken { get; set; }
+        public System.DateTime IssuedOn { get; set; }
+        public System.DateTime ExpiresOn { get; set; }
+    
+        public virtual User User { get; set; }
     }
 }

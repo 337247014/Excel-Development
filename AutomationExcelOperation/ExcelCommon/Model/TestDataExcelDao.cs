@@ -10,5 +10,7 @@ namespace ExcelCommon.Model
     public class TestDataExcelDao
     {
         public IEnumerable<Country> Country { get; set; }
+        public IEnumerable<Company> Company { get; set; }
+        public IEnumerable<ValidationRule> ValidationRule { get; set; }
     }
 }

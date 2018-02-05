@@ -26,5 +26,10 @@ namespace DAL
         }
     
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Token> Tokens { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ValidationRule> ValidationRules { get; set; }
     }
 }

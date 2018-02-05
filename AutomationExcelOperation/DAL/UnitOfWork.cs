@@ -27,6 +27,28 @@ namespace DAL
             }
         }
 
+        private GenericRepository<Company> _companyRepository;
+        public GenericRepository<Company> CompanyRepository
+        {
+            get
+            {
+                if (this._companyRepository == null)
+                    this._companyRepository = new GenericRepository<Company>(_context);
+                return _companyRepository;
+            }
+        }
+
+        private GenericRepository<ValidationRule> _validationRuleRepository;
+        public GenericRepository<ValidationRule> ValidationRuleRepository
+        {
+            get
+            {
+                if (this._validationRuleRepository == null)
+                    this._validationRuleRepository = new GenericRepository<ValidationRule>(_context);
+                return _validationRuleRepository;
+            }
+        }
+
         public void Save()
         {
             try

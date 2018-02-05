@@ -4,7 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryKey" Type="nvarchar" MaxLength="3" />
+          <Property Name="CompanyCode" Type="nvarchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -13,15 +21,76 @@
           <Property Name="CountryKey" Type="nvarchar" MaxLength="3" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="50" />
           <Property Name="CurrencyCode" Type="nvarchar" MaxLength="10" />
-          <Property Name="AllowsImpatriateExpenses" Type="bit" />
+          <Property Name="AllowsImpatriateExpenses" Type="bit" Nullable="false" />
           <Property Name="CountryKeySAP" Type="nvarchar" MaxLength="3" />
           <Property Name="AmexCountryISOCd" Type="int" />
         </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AuthToken" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="IssuedOn" Type="datetime" Nullable="false" />
+          <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ValidationRule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseTypeCd" Type="nvarchar" MaxLength="50" />
+          <Property Name="TriggeredOn" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsEnabledInd" Type="bit" Nullable="false" />
+          <Property Name="SeverityDesc" Type="nvarchar" MaxLength="50" />
+          <Property Name="RuleNm" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpenseSubTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="ValidationRuleActionTypeGroupNbr" Type="int" />
+          <Property Name="ErrorMsgDesc" Type="nvarchar" MaxLength="250" />
+          <Property Name="Sequence" Type="int" />
+        </EntityType>
+        <Association Name="FK_Tokens_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Tokens" Type="Self.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MyDBModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ValidationRule" EntityType="Self.ValidationRule" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tokens_User" Association="Self.FK_Tokens_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -33,13 +102,85 @@
           <Property Name="CountryKey" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CurrencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="AllowsImpatriateExpenses" Type="Boolean" />
+          <Property Name="AllowsImpatriateExpenses" Type="Boolean" Nullable="false" />
           <Property Name="CountryKeySAP" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="AmexCountryISOCd" Type="Int32" />
         </EntityType>
         <EntityContainer Name="MyDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Companies" EntityType="MyDBModel.Company" />
+          <EntitySet Name="Products" EntityType="MyDBModel.Product" />
+          <EntitySet Name="Tokens" EntityType="MyDBModel.Token" />
+          <EntitySet Name="Users" EntityType="MyDBModel.User" />
+          <EntitySet Name="ValidationRules" EntityType="MyDBModel.ValidationRule" />
+          <AssociationSet Name="FK_Tokens_User" Association="MyDBModel.FK_Tokens_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryKey" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiresOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="MyDBModel.FK_Tokens_User" FromRole="Token" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tokens" Relationship="MyDBModel.FK_Tokens_User" FromRole="User" ToRole="Token" />
+        </EntityType>
+        <EntityType Name="ValidationRule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseTypeCd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TriggeredOn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabledInd" Type="Boolean" Nullable="false" />
+          <Property Name="SeverityDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RuleNm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpenseSubTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ValidationRuleActionTypeGroupNbr" Type="Int32" />
+          <Property Name="ErrorMsgDesc" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Tokens_User">
+          <End Type="MyDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="MyDBModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -56,6 +197,60 @@
                 <ScalarProperty Name="AllowsImpatriateExpenses" ColumnName="AllowsImpatriateExpenses" />
                 <ScalarProperty Name="CountryKeySAP" ColumnName="CountryKeySAP" />
                 <ScalarProperty Name="AmexCountryISOCd" ColumnName="AmexCountryISOCd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="MyDBModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="CountryKey" ColumnName="CountryKey" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MyDBModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="MyDBModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MyDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ValidationRules">
+            <EntityTypeMapping TypeName="MyDBModel.ValidationRule">
+              <MappingFragment StoreEntitySet="ValidationRule">
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="ErrorMsgDesc" ColumnName="ErrorMsgDesc" />
+                <ScalarProperty Name="ValidationRuleActionTypeGroupNbr" ColumnName="ValidationRuleActionTypeGroupNbr" />
+                <ScalarProperty Name="ExpenseSubTypeValue" ColumnName="ExpenseSubTypeValue" />
+                <ScalarProperty Name="RuleNm" ColumnName="RuleNm" />
+                <ScalarProperty Name="SeverityDesc" ColumnName="SeverityDesc" />
+                <ScalarProperty Name="IsEnabledInd" ColumnName="IsEnabledInd" />
+                <ScalarProperty Name="TriggeredOn" ColumnName="TriggeredOn" />
+                <ScalarProperty Name="ExpenseTypeCd" ColumnName="ExpenseTypeCd" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

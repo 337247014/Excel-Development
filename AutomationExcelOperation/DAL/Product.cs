@@ -12,14 +12,9 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class Product
     {
-        public int Id { get; set; }
-        public string CountryKey { get; set; }
-        public string CountryName { get; set; }
-        public string CurrencyCode { get; set; }
-        public bool AllowsImpatriateExpenses { get; set; }
-        public string CountryKeySAP { get; set; }
-        public Nullable<int> AmexCountryISOCd { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
     }
 }
