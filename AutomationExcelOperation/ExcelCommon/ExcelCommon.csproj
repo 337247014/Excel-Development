@@ -49,6 +49,7 @@
     <Compile Include="ExcelLoaders\TestDataExcelLoader.cs" />
     <Compile Include="ExcelLoaders\ExcelLoaderFactory.cs" />
     <Compile Include="ExcelProcessor.cs" />
+    <Compile Include="Model\TestDataExcelDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

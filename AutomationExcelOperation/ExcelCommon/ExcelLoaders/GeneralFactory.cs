@@ -9,9 +9,11 @@ namespace ExcelCommon.ExcelLoaders
 {
     public abstract class GeneralFactory
     {
+        protected UnitOfWork unitOfWork;
         public TestDataExcelLoader TestDataExcelLoader { get; set; }
-        public GeneralFactory()
+        public GeneralFactory(UnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.Factory();
         }
         public abstract void Factory();

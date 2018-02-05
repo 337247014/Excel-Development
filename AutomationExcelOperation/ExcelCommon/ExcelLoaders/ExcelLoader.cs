@@ -1,4 +1,5 @@
 ﻿using DAL;
+using ExcelCommon.Model;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,14 @@ namespace ExcelCommon.ExcelLoaders
 {
     public abstract class ExcelLoader
     {
-        public abstract IEnumerable<Country> LoadExcel(ExcelWorksheet workSheet);
-        public abstract void LoadWorkSheet();
-        public abstract void SaveExcelIntoDB();
-        public abstract void SaveWorkSheetIntoDB();
+        protected UnitOfWork unitOfWork;
+        public ExcelLoader(UnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+        public abstract TestDataExcelDao LoadWorkbook(ExcelWorkbook workbook);
+        public abstract TestDataExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets);
+        public abstract void SaveWorkbookIntoDB(TestDataExcelDao testDataExcel);
+        public abstract void SaveWorksheetsIntoDB(TestDataExcelDao testDataExcel);
     }
 }

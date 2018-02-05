@@ -1,5 +1,6 @@
 ﻿using DAL;
 using ExcelCommon.ExcelLoaders;
+using ExcelCommon.Model;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -17,29 +18,25 @@ namespace ExcelCommon
         public ExcelProcessor()
         {
             unitOfWork = new UnitOfWork();
-            GeneralFactory = new ExcelLoaderFactory();
+            GeneralFactory = new ExcelLoaderFactory(unitOfWork);
         }
-
         public IEnumerable<Country> CountryList { get; set; }
+        private TestDataExcelDao testDataExcel = new TestDataExcelDao();
 
         public void LoadExcel()
         {
             FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
             if (!testDataExcelFile.Exists) throw new Exception("TestData excel file doesn't exist.");
             ExcelPackage package = new ExcelPackage(testDataExcelFile);
-            ExcelWorksheet workSheet = package.Workbook.Worksheets.FirstOrDefault();
+            List<ExcelWorksheet> worksheets = new List<ExcelWorksheet>();
+            worksheets.Add(package.Workbook.Worksheets.FirstOrDefault());
 
-            CountryList = GeneralFactory.TestDataExcelLoader.LoadExcel(workSheet);
+            testDataExcel = GeneralFactory.TestDataExcelLoader.LoadWorkbook(package.Workbook);
         }
 
         public void SaveDataIntoDB()
         {
-            foreach (var item in CountryList)
-            {
-                unitOfWork.CountryRepository.Insert(item);
-                unitOfWork.Save();
-            }
-            Console.WriteLine("Countrys count: " + CountryList.Count());
+            GeneralFactory.TestDataExcelLoader.SaveWorkbookIntoDB(testDataExcel);
         }
 
     }

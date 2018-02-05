@@ -9,9 +9,13 @@ namespace ExcelCommon.ExcelLoaders
 {
     public class ExcelLoaderFactory : GeneralFactory
     {
+        public ExcelLoaderFactory(UnitOfWork unitOfWork) : base(unitOfWork)
+        {
+        }
+
         public override void Factory()
         {
-            TestDataExcelLoader = new TestDataExcelLoader();
+            TestDataExcelLoader = new TestDataExcelLoader(unitOfWork);
             //here, add other excel files loader
         }
     }

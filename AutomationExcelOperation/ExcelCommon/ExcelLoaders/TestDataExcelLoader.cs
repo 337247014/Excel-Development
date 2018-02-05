@@ -1,4 +1,5 @@
 ﻿using DAL;
+using ExcelCommon.Model;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -12,34 +13,41 @@ namespace ExcelCommon.ExcelLoaders
     public class TestDataExcelLoader : ExcelLoader
     {
         private ExcelHelper excelHelper;
-        public TestDataExcelLoader()
+
+        public TestDataExcelLoader(UnitOfWork unitOfWork) : base(unitOfWork)
         {
             excelHelper = new ExcelHelper();
         }
-        public override IEnumerable<Country> LoadExcel(ExcelWorksheet workSheet)
-        {
-            //FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
-            //if (!testDataExcelFile.Exists) throw new Exception("TestData excel file doesn't exist.");
-            //ExcelPackage package = new ExcelPackage(testDataExcelFile);
-            //ExcelWorksheet workSheet = package.Workbook.Worksheets.FirstOrDefault();
 
-            var countryList = this.PopulateCountry(workSheet, true);
-            return countryList;
+        public override TestDataExcelDao LoadWorkbook(ExcelWorkbook workbook)
+        {
+            TestDataExcelDao testDataExcel = new TestDataExcelDao();
+
+            testDataExcel.Country = this.PopulateCountry(workbook.Worksheets["Country"], true);
+
+            return testDataExcel;
         }
 
-        public override void LoadWorkSheet()
+        public override TestDataExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets)
         {
             throw new NotImplementedException();
         }
 
-        public override void SaveExcelIntoDB()
+        public override void SaveWorkbookIntoDB(TestDataExcelDao testDataExcel)
         {
-            throw new NotImplementedException();
+            testDataExcel.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
+            unitOfWork.Save();
+            Console.WriteLine("Countrys count: " + testDataExcel.Country.Count());
         }
 
-        public override void SaveWorkSheetIntoDB()
+        public override void SaveWorksheetsIntoDB(TestDataExcelDao testDataExcel)
         {
-            throw new NotImplementedException();
+            if(testDataExcel.Country.ToList().Count != 0)
+            {
+                testDataExcel.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
+            }
+            unitOfWork.Save();
+            Console.WriteLine("Countrys count: " + testDataExcel.Country.Count());
         }
 
         private IEnumerable<Country> PopulateCountry(ExcelWorksheet workSheet, bool firstRowHeader)
@@ -76,4 +84,5 @@ namespace ExcelCommon.ExcelLoaders
             return Countrys;
         }
     }
+    
 }
