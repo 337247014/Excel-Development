@@ -85,6 +85,9 @@
     <Compile Include="ValidationRule.cs">
       <DependentUpon>MyDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebChatLink.cs">
+      <DependentUpon>MyDB.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="MyDB.edmx">

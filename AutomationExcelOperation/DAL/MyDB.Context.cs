@@ -31,5 +31,6 @@ namespace DAL
         public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ValidationRule> ValidationRules { get; set; }
+        public virtual DbSet<WebChatLink> WebChatLinks { get; set; }
     }
 }

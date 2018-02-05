@@ -49,6 +49,17 @@ namespace DAL
             }
         }
 
+        private GenericRepository<WebChatLink> _webChatLinkRepository;
+        public GenericRepository<WebChatLink> WebChatLinkRepository
+        {
+            get
+            {
+                if (this._webChatLinkRepository == null)
+                    this._webChatLinkRepository = new GenericRepository<WebChatLink>(_context);
+                return _webChatLinkRepository;
+            }
+        }
+
         public void Save()
         {
             try

@@ -11,6 +11,7 @@ namespace ExcelCommon.ExcelLoaders
     {
         protected UnitOfWork unitOfWork;
         public TestDataExcelLoader TestDataExcelLoader { get; set; }
+        public OtherDataExcelLoader OtherDataExcelLoader { get; set; }
         public GeneralFactory(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;

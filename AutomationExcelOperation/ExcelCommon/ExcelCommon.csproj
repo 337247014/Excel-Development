@@ -46,9 +46,12 @@
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="ExcelLoaders\ExcelLoader.cs" />
     <Compile Include="ExcelLoaders\GeneralFactory.cs" />
+    <Compile Include="ExcelLoaders\OtherDataExcelLoader.cs" />
     <Compile Include="ExcelLoaders\TestDataExcelLoader.cs" />
     <Compile Include="ExcelLoaders\ExcelLoaderFactory.cs" />
     <Compile Include="ExcelProcessor.cs" />
+    <Compile Include="Model\IExcelDao.cs" />
+    <Compile Include="Model\OtherDataExcelDao.cs" />
     <Compile Include="Model\TestDataExcelDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

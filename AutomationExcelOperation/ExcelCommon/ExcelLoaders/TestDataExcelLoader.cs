@@ -19,7 +19,7 @@ namespace ExcelCommon.ExcelLoaders
             excelHelper = new ExcelHelper();
         }
 
-        public override TestDataExcelDao LoadWorkbook(ExcelWorkbook workbook)
+        public override IExcelDao LoadWorkbook(ExcelWorkbook workbook)
         {
             TestDataExcelDao testDataExcel = new TestDataExcelDao();
 
@@ -30,28 +30,30 @@ namespace ExcelCommon.ExcelLoaders
             return testDataExcel;
         }
 
-        public override TestDataExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets)
+        public override IExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets)
         {
             throw new NotImplementedException();
         }
 
-        public override void SaveWorkbookIntoDB(TestDataExcelDao testDataExcel)
+        public override void SaveWorkbookIntoDB(IExcelDao data )
         {
-            testDataExcel.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
-            testDataExcel.Company.ToList().ForEach(x => unitOfWork.CompanyRepository.Insert(x));
-            testDataExcel.ValidationRule.ToList().ForEach(x => unitOfWork.ValidationRuleRepository.Insert(x));
+            TestDataExcelDao testData = (TestDataExcelDao)data;
+            testData.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
+            testData.Company.ToList().ForEach(x => unitOfWork.CompanyRepository.Insert(x));
+            testData.ValidationRule.ToList().ForEach(x => unitOfWork.ValidationRuleRepository.Insert(x));
             unitOfWork.Save();
-            Console.WriteLine("Countrys count: " + testDataExcel.Country.Count());
+            Console.WriteLine("Countrys count: " + testData.Country.Count());
         }
 
-        public override void SaveWorksheetsIntoDB(TestDataExcelDao testDataExcel)
+        public override void SaveWorksheetsIntoDB(IExcelDao data)
         {
-            if(testDataExcel.Country.ToList().Count != 0)
+            TestDataExcelDao testData = (TestDataExcelDao)data;
+            if (testData.Country.ToList().Count != 0)
             {
-                testDataExcel.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
+                testData.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
             }
             unitOfWork.Save();
-            Console.WriteLine("Countrys count: " + testDataExcel.Country.Count());
+            Console.WriteLine("Countrys count: " + testData.Country.Count());
         }
 
         private IEnumerable<Country> CreateCountry(ExcelWorksheet workSheet, bool firstRowHeader)

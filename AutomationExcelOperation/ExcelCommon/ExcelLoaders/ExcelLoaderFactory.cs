@@ -16,6 +16,7 @@ namespace ExcelCommon.ExcelLoaders
         public override void Factory()
         {
             TestDataExcelLoader = new TestDataExcelLoader(unitOfWork);
+            OtherDataExcelLoader = new OtherDataExcelLoader(unitOfWork);
             //here, add other excel files loader
         }
     }

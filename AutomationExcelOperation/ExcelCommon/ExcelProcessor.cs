@@ -20,23 +20,28 @@ namespace ExcelCommon
             unitOfWork = new UnitOfWork();
             GeneralFactory = new ExcelLoaderFactory(unitOfWork);
         }
-        public IEnumerable<Country> CountryList { get; set; }
-        private TestDataExcelDao testDataExcel = new TestDataExcelDao();
+
+        private IExcelDao testDataExcel = new TestDataExcelDao();
+        private IExcelDao otherDataExcel = new OtherDataExcelDao();
 
         public void LoadExcel()
         {
             FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
-            if (!testDataExcelFile.Exists) throw new Exception("TestData excel file doesn't exist.");
+            if (!testDataExcelFile.Exists) throw new Exception("the excel file doesn't exist.");
             ExcelPackage package = new ExcelPackage(testDataExcelFile);
-            List<ExcelWorksheet> worksheets = new List<ExcelWorksheet>();
-            worksheets.Add(package.Workbook.Worksheets.FirstOrDefault());
-
             testDataExcel = GeneralFactory.TestDataExcelLoader.LoadWorkbook(package.Workbook);
+
+            FileInfo otherDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\OtherData.xlsx");
+            if (!otherDataExcelFile.Exists) throw new Exception("OtherData excel file doesn't exist.");
+            ExcelPackage package1 = new ExcelPackage(otherDataExcelFile);
+            otherDataExcel = GeneralFactory.OtherDataExcelLoader.LoadWorkbook(package1.Workbook);
+
         }
 
         public void SaveDataIntoDB()
         {
             GeneralFactory.TestDataExcelLoader.SaveWorkbookIntoDB(testDataExcel);
+            GeneralFactory.OtherDataExcelLoader.SaveWorkbookIntoDB(otherDataExcel);
         }
 
     }

@@ -16,9 +16,9 @@ namespace ExcelCommon.ExcelLoaders
         {
             this.unitOfWork = unitOfWork;
         }
-        public abstract TestDataExcelDao LoadWorkbook(ExcelWorkbook workbook);
-        public abstract TestDataExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets);
-        public abstract void SaveWorkbookIntoDB(TestDataExcelDao testDataExcel);
-        public abstract void SaveWorksheetsIntoDB(TestDataExcelDao testDataExcel);
+        public abstract IExcelDao LoadWorkbook(ExcelWorkbook workbook);
+        public abstract IExcelDao LoadWorksheets(IEnumerable<ExcelWorksheet> worksheets);
+        public abstract void SaveWorkbookIntoDB(IExcelDao data);
+        public abstract void SaveWorksheetsIntoDB(IExcelDao data);
     }
 }

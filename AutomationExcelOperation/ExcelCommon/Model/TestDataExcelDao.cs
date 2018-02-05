@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExcelCommon.Model
 {
-    public class TestDataExcelDao
+    public class TestDataExcelDao : IExcelDao
     {
         public IEnumerable<Country> Country { get; set; }
         public IEnumerable<Company> Company { get; set; }

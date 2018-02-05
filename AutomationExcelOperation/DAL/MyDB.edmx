@@ -66,6 +66,15 @@
           <Property Name="ErrorMsgDesc" Type="nvarchar" MaxLength="250" />
           <Property Name="Sequence" Type="int" />
         </EntityType>
+        <EntityType Name="WebChatLinks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryKey" Type="nvarchar" MaxLength="3" />
+          <Property Name="Language" Type="nvarchar" MaxLength="50" />
+          <Property Name="Link" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <Association Name="FK_Tokens_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Tokens" Type="Self.Tokens" Multiplicity="*" />
@@ -85,6 +94,7 @@
           <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValidationRule" EntityType="Self.ValidationRule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebChatLinks" EntityType="Self.WebChatLinks" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Tokens_User" Association="Self.FK_Tokens_User">
             <End Role="User" EntitySet="User" />
             <End Role="Tokens" EntitySet="Tokens" />
@@ -117,6 +127,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Token" EntitySet="Tokens" />
           </AssociationSet>
+          <EntitySet Name="WebChatLinks" EntityType="MyDBModel.WebChatLink" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -181,6 +192,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WebChatLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryKey" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -250,6 +270,16 @@
                 <ScalarProperty Name="IsEnabledInd" ColumnName="IsEnabledInd" />
                 <ScalarProperty Name="TriggeredOn" ColumnName="TriggeredOn" />
                 <ScalarProperty Name="ExpenseTypeCd" ColumnName="ExpenseTypeCd" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebChatLinks">
+            <EntityTypeMapping TypeName="MyDBModel.WebChatLink">
+              <MappingFragment StoreEntitySet="WebChatLinks">
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="CountryKey" ColumnName="CountryKey" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
