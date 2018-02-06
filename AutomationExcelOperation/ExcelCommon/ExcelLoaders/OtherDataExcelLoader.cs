@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DAL;
 using ExcelCommon.Model;
 using OfficeOpenXml;
+using System.Diagnostics;
 
 namespace ExcelCommon.ExcelLoaders
 {
@@ -33,9 +34,17 @@ namespace ExcelCommon.ExcelLoaders
 
         public override void SaveWorkbookIntoDB(IExcelDao data)
         {
+            Console.WriteLine(@"it is going to save excel data into DB");
             OtherDataExcelDao otherData = (OtherDataExcelDao)data;
             otherData.WebChatLinks.ToList().ForEach(x => unitOfWork.WebChatLinkRepository.Insert(x));
-            //unitOfWork.Save();
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            unitOfWork.Save();
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            Console.WriteLine(@"it take {0}ms to save", ts.TotalMilliseconds);
+            Console.WriteLine(@"Save sucessfully");
         }
 
         public override void SaveWorksheetsIntoDB(IExcelDao data)
@@ -45,6 +54,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<WebChatLink> CreateWebChatLink(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.WriteLine(@"Read data from WebChatLink worksheet");
             IList<WebChatLink> webChatLinks = new List<WebChatLink>();
 
             if (workSheet != null)

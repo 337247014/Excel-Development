@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleHelper.cs" />
+    <Compile Include="Helpers\ConstantHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Model\Country.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

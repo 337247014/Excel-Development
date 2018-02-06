@@ -3,6 +3,7 @@ using ExcelCommon.Model;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,12 +38,19 @@ namespace ExcelCommon.ExcelLoaders
 
         public override void SaveWorkbookIntoDB(IExcelDao data )
         {
+            Console.WriteLine(@"it is going to save excel data into DB");
             TestDataExcelDao testData = (TestDataExcelDao)data;
             testData.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
             testData.Company.ToList().ForEach(x => unitOfWork.CompanyRepository.Insert(x));
             testData.ValidationRule.ToList().ForEach(x => unitOfWork.ValidationRuleRepository.Insert(x));
-            //unitOfWork.Save();
-            Console.WriteLine("Countrys count: " + testData.Country.Count());
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            unitOfWork.Save();
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            Console.WriteLine(@"it take {0}ms to save",ts.TotalMilliseconds);
+            Console.WriteLine(@"Save sucessfully");
         }
 
         public override void SaveWorksheetsIntoDB(IExcelDao data)
@@ -52,12 +60,13 @@ namespace ExcelCommon.ExcelLoaders
             {
                 testData.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
             }
-            unitOfWork.Save();
-            Console.WriteLine("Countrys count: " + testData.Country.Count());
+            //unitOfWork.Save();
+            //Console.WriteLine("Countrys count: " + testData.Country.Count());
         }
 
         private IEnumerable<Country> CreateCountry(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.WriteLine(@"Read data from Country worksheet");
             IList<Country> Countries = new List<Country>();
 
             if (workSheet != null)
@@ -92,6 +101,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<Company> CreateCompany(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.WriteLine(@"Read data from Company worksheet");
             IList<Company> companyList = new List<Company>();
 
             if (workSheet != null)
@@ -121,6 +131,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<ValidationRule> CreateValidationRule(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.WriteLine(@"Read data from ValidationRule worksheet");
             IList<ValidationRule> ValidationRules = new List<ValidationRule>();
 
             if (workSheet != null)
