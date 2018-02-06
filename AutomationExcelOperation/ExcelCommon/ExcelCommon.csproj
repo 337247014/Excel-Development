@@ -47,8 +47,9 @@
     <Compile Include="ExcelLoaders\ExcelLoader.cs" />
     <Compile Include="ExcelLoaders\GeneralFactory.cs" />
     <Compile Include="ExcelLoaders\OtherDataExcelLoader.cs" />
+    <Compile Include="ExcelLoaders\OtherDataExcelLoaderFactory.cs" />
     <Compile Include="ExcelLoaders\TestDataExcelLoader.cs" />
-    <Compile Include="ExcelLoaders\ExcelLoaderFactory.cs" />
+    <Compile Include="ExcelLoaders\TestDataExcelLoaderFactory.cs" />
     <Compile Include="ExcelProcessor.cs" />
     <Compile Include="Model\IExcelDao.cs" />
     <Compile Include="Model\OtherDataExcelDao.cs" />

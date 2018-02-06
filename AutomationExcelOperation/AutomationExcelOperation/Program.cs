@@ -1,4 +1,7 @@
-﻿using ExcelCommon;
+﻿using DAL;
+using ExcelCommon;
+using ExcelCommon.ExcelLoaders;
+using ExcelCommon.Model;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using System;
@@ -14,11 +17,23 @@ namespace AutomationExcelOperation
     {
         static void Main(string[] args)
         {
-            ExcelProcessor excelLoader = new ExcelProcessor();
+            UnitOfWork unitOfWork = new UnitOfWork();
+            ExcelProcessor excelProcessor = new ExcelProcessor();
 
-            excelLoader.LoadExcel();
-            excelLoader.SaveDataIntoDB();
-            
+            //read testData.xlsx and save it into db
+            FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
+            GeneralFactory testDataExcelLoaderFactory = new TestDataExcelLoaderFactory(unitOfWork);
+            IExcelDao testData = excelProcessor.LoadExcel(testDataExcelLoaderFactory, testDataExcelFile);
+            excelProcessor.SaveDataIntoDB(testDataExcelLoaderFactory, testData);
+
+            //read otherData.xlsx and save it into db
+            FileInfo otherDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\OtherData.xlsx");
+            GeneralFactory otherDataExcelLoaderFactory = new OtherDataExcelLoaderFactory(unitOfWork);
+            IExcelDao otherData = excelProcessor.LoadExcel(otherDataExcelLoaderFactory, otherDataExcelFile);
+            excelProcessor.SaveDataIntoDB(otherDataExcelLoaderFactory, otherData);
+
+            //finally save all of excel data
+            unitOfWork.Save();
             Console.ReadLine();
         }
 

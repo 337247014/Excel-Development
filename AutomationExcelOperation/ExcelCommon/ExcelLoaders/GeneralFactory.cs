@@ -10,13 +10,10 @@ namespace ExcelCommon.ExcelLoaders
     public abstract class GeneralFactory
     {
         protected UnitOfWork unitOfWork;
-        public TestDataExcelLoader TestDataExcelLoader { get; set; }
-        public OtherDataExcelLoader OtherDataExcelLoader { get; set; }
         public GeneralFactory(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.Factory();
         }
-        public abstract void Factory();
+        public abstract ExcelLoader CreateInstance();
     }
 }

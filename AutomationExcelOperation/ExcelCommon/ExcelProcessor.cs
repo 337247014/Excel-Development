@@ -13,35 +13,22 @@ namespace ExcelCommon
 {
     public class ExcelProcessor
     {
-        private UnitOfWork unitOfWork;
-        public GeneralFactory GeneralFactory { get; set; }
-        public ExcelProcessor()
+        public ExcelProcessor() { }
+
+        public IExcelDao LoadExcel(GeneralFactory factory,FileInfo file)
         {
-            unitOfWork = new UnitOfWork();
-            GeneralFactory = new ExcelLoaderFactory(unitOfWork);
+            IExcelDao data;
+
+            if (!file.Exists) throw new Exception("the excel file doesn't exist.");
+            ExcelPackage package = new ExcelPackage(file);
+            data = factory.CreateInstance().LoadWorkbook(package.Workbook);
+
+            return data;
         }
 
-        private IExcelDao testDataExcel = new TestDataExcelDao();
-        private IExcelDao otherDataExcel = new OtherDataExcelDao();
-
-        public void LoadExcel()
+        public void SaveDataIntoDB(GeneralFactory factory, IExcelDao data)
         {
-            FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
-            if (!testDataExcelFile.Exists) throw new Exception("the excel file doesn't exist.");
-            ExcelPackage package = new ExcelPackage(testDataExcelFile);
-            testDataExcel = GeneralFactory.TestDataExcelLoader.LoadWorkbook(package.Workbook);
-
-            FileInfo otherDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\OtherData.xlsx");
-            if (!otherDataExcelFile.Exists) throw new Exception("OtherData excel file doesn't exist.");
-            ExcelPackage package1 = new ExcelPackage(otherDataExcelFile);
-            otherDataExcel = GeneralFactory.OtherDataExcelLoader.LoadWorkbook(package1.Workbook);
-
-        }
-
-        public void SaveDataIntoDB()
-        {
-            GeneralFactory.TestDataExcelLoader.SaveWorkbookIntoDB(testDataExcel);
-            GeneralFactory.OtherDataExcelLoader.SaveWorkbookIntoDB(otherDataExcel);
+            factory.CreateInstance().SaveWorkbookIntoDB(data);
         }
 
     }

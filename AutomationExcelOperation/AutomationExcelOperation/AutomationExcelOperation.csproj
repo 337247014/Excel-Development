@@ -66,6 +66,10 @@
     <Folder Include="Data\GeneratedExcel\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{2e3f4cdf-b75a-48a1-b918-e670733c3c6c}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExcelCommon\ExcelCommon.csproj">
       <Project>{09917bec-87ac-416a-89f8-08e79fe2ccce}</Project>
       <Name>ExcelCommon</Name>

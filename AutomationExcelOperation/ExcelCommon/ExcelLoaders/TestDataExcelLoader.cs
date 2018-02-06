@@ -41,7 +41,7 @@ namespace ExcelCommon.ExcelLoaders
             testData.Country.ToList().ForEach(x => unitOfWork.CountryRepository.Insert(x));
             testData.Company.ToList().ForEach(x => unitOfWork.CompanyRepository.Insert(x));
             testData.ValidationRule.ToList().ForEach(x => unitOfWork.ValidationRuleRepository.Insert(x));
-            unitOfWork.Save();
+            //unitOfWork.Save();
             Console.WriteLine("Countrys count: " + testData.Country.Count());
         }
 

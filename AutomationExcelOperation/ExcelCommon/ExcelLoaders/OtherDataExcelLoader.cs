@@ -35,7 +35,7 @@ namespace ExcelCommon.ExcelLoaders
         {
             OtherDataExcelDao otherData = (OtherDataExcelDao)data;
             otherData.WebChatLinks.ToList().ForEach(x => unitOfWork.WebChatLinkRepository.Insert(x));
-            unitOfWork.Save();
+            //unitOfWork.Save();
         }
 
         public override void SaveWorksheetsIntoDB(IExcelDao data)
