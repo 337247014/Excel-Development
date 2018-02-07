@@ -46,6 +46,8 @@
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="ExcelLoaders\ExcelLoader.cs" />
     <Compile Include="ExcelLoaders\GeneralFactory.cs" />
+    <Compile Include="ExcelLoaders\OrderExcelFactory.cs" />
+    <Compile Include="ExcelLoaders\OrderExcelLoader.cs" />
     <Compile Include="ExcelLoaders\OtherDataExcelLoader.cs" />
     <Compile Include="ExcelLoaders\OtherDataExcelLoaderFactory.cs" />
     <Compile Include="ExcelLoaders\TestDataExcelLoader.cs" />

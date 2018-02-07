@@ -50,6 +50,7 @@ namespace ExcelCommon.ExcelLoaders
             sw.Stop();
             TimeSpan ts = sw.Elapsed;
             Console.WriteLine(@"it take {0}ms to save",ts.TotalMilliseconds);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"Save sucessfully");
         }
 
@@ -64,8 +65,15 @@ namespace ExcelCommon.ExcelLoaders
             //Console.WriteLine("Countrys count: " + testData.Country.Count());
         }
 
+        public override void GenerateWorkbook(string fileLocation)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region read worksheets
         private IEnumerable<Country> CreateCountry(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(@"Read data from Country worksheet");
             IList<Country> Countries = new List<Country>();
 
@@ -101,6 +109,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<Company> CreateCompany(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(@"Read data from Company worksheet");
             IList<Company> companyList = new List<Company>();
 
@@ -131,6 +140,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<ValidationRule> CreateValidationRule(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(@"Read data from ValidationRule worksheet");
             IList<ValidationRule> ValidationRules = new List<ValidationRule>();
 
@@ -164,6 +174,7 @@ namespace ExcelCommon.ExcelLoaders
 
             return ValidationRules;
         }
+        #endregion read worksheets
     }
     
 }

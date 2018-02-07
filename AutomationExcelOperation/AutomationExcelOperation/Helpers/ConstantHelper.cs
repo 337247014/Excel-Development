@@ -12,5 +12,11 @@ namespace AutomationExcelOperation.Helpers
         public static readonly string[] DeleteArguments = { @"-delete", @"-d" };
         public static readonly string[] LoadTestDataArgs = { @"-test", @"-testdata" };
         public static readonly string[] LoadOtherDataArgs = { @"-other", @"-otherdata" };
+
+        public static readonly string[] BuildOrderExcelArgs = { @"-order", @"-orderexcel" };
+
+        public static readonly string TestDataExcelFileLocation = "..\\..\\Data\\RawExcel\\TestData.xlsx";
+        public static readonly string OtherDataExcelFileLocation = "..\\..\\Data\\RawExcel\\OtherData.xlsx";
+        public static readonly string OrderExcelFileLocation = "..\\..\\Data\\GeneratedExcel\\Order.xlsx";
     }
 }

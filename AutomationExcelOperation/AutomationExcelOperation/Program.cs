@@ -39,42 +39,69 @@ namespace AutomationExcelOperation
             ProcessTestData(args);
             ProcessOtherData(args);
 
+            BuildOrderWorkbook(args);
+
             //finally save all of excel data
             //unitOfWork.Save();
+            Console.ForegroundColor = ConsoleColor.White;
             ConsoleHelper.ShowLineBreak();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Finished!");
             Console.ReadLine();
         }
 
         private static void ProcessTestData(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             ConsoleHelper.ShowLineBreak();
             if (args.ArgsContain(ConstantHelper.LoadTestDataArgs))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(@"Loading TestData Excel file");
-                ConsoleHelper.ShowLineBreak();
+                Console.WriteLine();
                 LoadTestData();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(@"***Test Data is not being loaded***");
-                ConsoleHelper.ShowLineBreak();
             }
         }
 
         private static void ProcessOtherData(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             ConsoleHelper.ShowLineBreak();
             if (args.ArgsContain(ConstantHelper.LoadOtherDataArgs))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(@"Loading OtherData Excel file");
-                ConsoleHelper.ShowLineBreak();
+                Console.WriteLine();
                 LoadOtherData();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(@"***Other Data is not being loaded***");
-                ConsoleHelper.ShowLineBreak();
+            }
+        }
+
+        private static void BuildOrderWorkbook(string[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            ConsoleHelper.ShowLineBreak();
+            if (args.ArgsContain(ConstantHelper.BuildOrderExcelArgs))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(@"Build Order Excel file");
+                Console.WriteLine();
+                GeneralFactory factory = new OrderExcelFactory(unitOfWork);
+                excelProcessor.GenerateWorkbook(factory, ConstantHelper.OrderExcelFileLocation);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(@"***Order excel is not being built***");
             }
         }
 
@@ -83,7 +110,8 @@ namespace AutomationExcelOperation
         /// </summary>
         private static void LoadTestData()
         {
-            FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
+            //FileInfo testDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\TestData.xlsx");
+            FileInfo testDataExcelFile = new FileInfo(ConstantHelper.TestDataExcelFileLocation);
             GeneralFactory testDataExcelLoaderFactory = new TestDataExcelLoaderFactory(unitOfWork);
             IExcelDao testData = excelProcessor.LoadExcel(testDataExcelLoaderFactory, testDataExcelFile);
             excelProcessor.SaveDataIntoDB(testDataExcelLoaderFactory, testData);
@@ -94,7 +122,8 @@ namespace AutomationExcelOperation
         /// </summary>
         private static void LoadOtherData()
         {
-            FileInfo otherDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\OtherData.xlsx");
+            //FileInfo otherDataExcelFile = new FileInfo("..\\..\\..\\AutomationExcelOperation\\Data\\RawExcel\\OtherData.xlsx");
+            FileInfo otherDataExcelFile = new FileInfo(ConstantHelper.OtherDataExcelFileLocation);
             GeneralFactory otherDataExcelLoaderFactory = new OtherDataExcelLoaderFactory(unitOfWork);
             IExcelDao otherData = excelProcessor.LoadExcel(otherDataExcelLoaderFactory, otherDataExcelFile);
             excelProcessor.SaveDataIntoDB(otherDataExcelLoaderFactory, otherData);

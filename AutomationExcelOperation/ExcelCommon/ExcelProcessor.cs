@@ -31,5 +31,10 @@ namespace ExcelCommon
             factory.CreateInstance().SaveWorkbookIntoDB(data);
         }
 
+        public void GenerateWorkbook(GeneralFactory factory, string fileLocation)
+        {
+            factory.CreateInstance().GenerateWorkbook(fileLocation);
+        }
+
     }
 }

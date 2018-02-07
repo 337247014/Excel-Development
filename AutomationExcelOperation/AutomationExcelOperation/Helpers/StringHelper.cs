@@ -34,7 +34,8 @@ namespace AutomationExcelOperation.Helpers
             return args.Any(arg => (!ConstantHelper.LoadTestDataArgs.Contains(arg) &&
                                     !ConstantHelper.LoadOtherDataArgs.Contains(arg) &&
                                     !ConstantHelper.HelpArguments.Contains(arg) &&
-                                    !ConstantHelper.DeleteArguments.Contains(arg)
+                                    !ConstantHelper.DeleteArguments.Contains(arg) &&
+                                    !ConstantHelper.BuildOrderExcelArgs.Contains(arg)
                                     ));
         }
 

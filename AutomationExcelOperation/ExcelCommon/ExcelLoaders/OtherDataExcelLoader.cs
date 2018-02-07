@@ -18,6 +18,11 @@ namespace ExcelCommon.ExcelLoaders
             excelHelper = new ExcelHelper();
         }
 
+        public override void GenerateWorkbook(string fileLocation)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IExcelDao LoadWorkbook(ExcelWorkbook workbook)
         {
             OtherDataExcelDao otherDataExcel = new OtherDataExcelDao();
@@ -44,6 +49,7 @@ namespace ExcelCommon.ExcelLoaders
             sw.Stop();
             TimeSpan ts = sw.Elapsed;
             Console.WriteLine(@"it take {0}ms to save", ts.TotalMilliseconds);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"Save sucessfully");
         }
 
@@ -54,6 +60,7 @@ namespace ExcelCommon.ExcelLoaders
 
         private IEnumerable<WebChatLink> CreateWebChatLink(ExcelWorksheet workSheet, bool firstRowHeader)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(@"Read data from WebChatLink worksheet");
             IList<WebChatLink> webChatLinks = new List<WebChatLink>();
 

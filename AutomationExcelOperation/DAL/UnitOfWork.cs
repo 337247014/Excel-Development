@@ -60,6 +60,28 @@ namespace DAL
             }
         }
 
+        private GenericRepository<Product> _productRepository;
+        public GenericRepository<Product> ProductRepository
+        {
+            get
+            {
+                if (this._productRepository == null)
+                    this._productRepository = new GenericRepository<Product>(_context);
+                return _productRepository;
+            }
+        }
+
+        private GenericRepository<User> _userRepository;
+        public GenericRepository<User> UserRepository
+        {
+            get
+            {
+                if (this._userRepository == null)
+                    this._userRepository = new GenericRepository<User>(_context);
+                return _userRepository;
+            }
+        }
+
         public void Save()
         {
             try
