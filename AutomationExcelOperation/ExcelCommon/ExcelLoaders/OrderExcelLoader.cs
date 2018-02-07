@@ -56,13 +56,28 @@ namespace ExcelCommon.ExcelLoaders
             Console.WriteLine(@"build Products worksheet by data");
             var wsProducts = package.Workbook.Worksheets.Add("Products");
             wsProducts.Cells["A1"].LoadFromCollection(unitOfWork.ProductRepository.GetAll().ToList(), true, TableStyles.Medium9);
+            //make all of columns auto fit width
+            wsProducts.Cells[wsProducts.Dimension.Address].AutoFitColumns();
         }
 
         private void BuildUserWorkSheet(ExcelPackage package)
         {
             Console.WriteLine(@"build User worksheet by data");
             var wsUser = package.Workbook.Worksheets.Add("User");
-            wsUser.Cells["A1"].LoadFromCollection(unitOfWork.UserRepository.GetAll().ToList(), true, TableStyles.Light10);
+            var list = unitOfWork.UserRepository.GetAll();
+
+            //1.write data from D1 cell
+            //2.just write specified columns 
+            //3.order by UserName
+            wsUser.Cells["D1"].LoadFromCollection(from item in list
+                                                  orderby item.UserName ascending
+                                                  select new {
+                                                      UserId = item.UserId,
+                                                      UserName = item.UserName,
+                                                      Password = item.Password
+                                                  }, true, TableStyles.Light10);
+            //make all of columns auto fit width
+            wsUser.Cells[wsUser.Dimension.Address].AutoFitColumns();
         }
     }
 }
