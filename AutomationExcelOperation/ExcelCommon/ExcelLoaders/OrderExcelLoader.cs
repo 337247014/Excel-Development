@@ -10,6 +10,8 @@ using OfficeOpenXml.Table;
 using System.IO;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing;
 
 namespace ExcelCommon.ExcelLoaders
 {
@@ -86,6 +88,45 @@ namespace ExcelCommon.ExcelLoaders
             //  and set color to White (D1:F1) equals (1,4,1,6)
             wsUser.Cells["D1:F1"].Style.Font.Bold = true;
             wsUser.Cells[1,4,1,6].Style.Font.Color.SetColor(Color.Black);
+            wsUser.Cells["F2:F5"].Style.Numberformat.Format = "#,##0.00";
+
+            CreatePieChart(wsUser, "User", new int[] { 0, 0, 6, 0 }, new int[] { 400, 400 }, new ExcelAddress(2, 6, 5, 6), "E2:E5");
+        }
+
+        /// <summary>
+        /// create a pie chart
+        /// </summary>
+        /// <param name="worksheet">create chart on this worksheet</param>
+        /// <param name="title">tiltle of pie chart</param>
+        /// <param name="position">specify the detail position on worksheet, like 0,0,5,5 for array value</param>
+        /// <param name="size">specify width and height of chart, like 600,300 for array value</param>
+        /// <param name="serieAddress">specify the value area of chart, like E2:E6</param>
+        /// <param name="xSerieAdress">specify the revelent legend area of chart, like B2:B6</param>
+        private void CreatePieChart(ExcelWorksheet worksheet,string title, int[] position,int[] size, ExcelAddress serieAddress, string xSerieAdress)
+        {
+            var chart = (worksheet.Drawings.AddChart("PieChart", eChartType.Pie3D) as ExcelPieChart);
+
+            chart.Title.Text = title;
+            //From row position[0] colum position[2] with some pixels offset
+            chart.SetPosition(position[0], position[1], position[2], position[3]);
+
+            //set chart size with size[0]px width and size[1] height
+            chart.SetSize(size[0], size[1]);
+
+            //here set data of pie chart, specify serie value and relevent type
+            //var ser = (chart.Series.Add(serieAddress, xSerieAdress) as ExcelPieChartSerie);
+            ExcelAddress valueAddress = serieAddress;
+            var ser = (chart.Series.Add(valueAddress.Address, xSerieAdress) as ExcelPieChartSerie);
+            chart.DataLabel.ShowCategory = true;
+            chart.DataLabel.ShowPercent = true;
+
+            //set legend format
+            chart.Legend.Border.LineStyle = eLineStyle.Solid;
+            chart.Legend.Border.Fill.Style = eFillStyle.SolidFill;
+            chart.Legend.Border.Fill.Color = Color.DarkBlue;
+
+            //Switch the PageLayoutView back to normal
+            worksheet.View.PageLayoutView = false;
         }
     }
 }
