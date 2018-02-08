@@ -8,6 +8,8 @@ using ExcelCommon.Model;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System.IO;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace ExcelCommon.ExcelLoaders
 {
@@ -76,8 +78,14 @@ namespace ExcelCommon.ExcelLoaders
                                                       UserName = item.UserName,
                                                       Password = item.Password
                                                   }, true, TableStyles.Light10);
-            //make all of columns auto fit width
+            //4.make all of columns auto fit width
             wsUser.Cells[wsUser.Dimension.Address].AutoFitColumns();
+            //5.set font to Arial for all all cells
+            wsUser.Cells.Style.Font.Name = "Arial";
+            //6.set font to Bold from D1 to F1
+            //  and set color to White (D1:F1) equals (1,4,1,6)
+            wsUser.Cells["D1:F1"].Style.Font.Bold = true;
+            wsUser.Cells[1,4,1,6].Style.Font.Color.SetColor(Color.Black);
         }
     }
 }
